@@ -1,13 +1,17 @@
 ---
 name: transition-patterns
-description: Ready-made CSS transition patterns from transitions.dev for common UI moments - card resize, number pop-in, notification badges, text swaps, dropdowns, modals, panels, page transitions, icon swaps. Use whenever implementing one of these nine interactions instead of writing the transition from scratch, or when the user mentions transitions.dev or asks for a proven transition pattern.
+description: Remap step between the official transitions.dev skill (Jakub Antalik, installed via setup.sh) and frilo tokens. Use after transitions.dev's reveal/apply/refine/polish commands propose or insert a transition, to remap its variables onto frilo's token system before it ships. Also useful as a lookup when the user names a proven transition pattern (card resize, number pop-in, notification badge, text swap, dropdown, modal, panel reveal, page transition, icon swap).
 ---
 
 # Transition Patterns (transitions.dev bridge)
 
-Catalog of nine proven CSS transitions by Jakub Antalik. Don't reinvent these; adapt them.
+The official `transitions.dev` skill (installed by `setup.sh`) owns discovery
+and application: `reveal` lists the full catalog, `review` audits a project for
+ad-hoc transitions, `apply` proposes and inserts one, `refine` and `polish`
+tune it against existing motion. Call that skill first. This skill is what runs
+after — the remap onto frilo's system.
 
-## When to reach for which
+## The nine patterns
 
 | Pattern | Use for |
 |---|---|
@@ -23,11 +27,20 @@ Catalog of nine proven CSS transitions by Jakub Antalik. Don't reinvent these; a
 
 ## Workflow
 
-1. Fetch the snippet from https://transitions.dev/ (each card has a self-contained copy-ready CSS block). If offline, reconstruct from the pattern description using frilo motion tokens.
-2. Remap its `:root` custom properties to frilo tokens: durations → `TOKENS.json` motion.duration, easings → motion.easing, colors → the brand file. The snippets are semantic-variable based, so this is a find-replace, not a rewrite.
-3. Keep the `t-*` class namespacing and the `prefers-reduced-motion` guard. Both survive the remap untouched.
-4. Run the result through Emil's rules (review-animations if installed): frequency check, sub-300ms, origin correctness still apply. A pattern being proven doesn't exempt it from the frequency rule; a number pop-in on a value that updates every second gets deleted, not styled.
+1. Let the `transitions.dev` skill reveal, apply, or refine the pattern. Its
+   snippets are semantic-variable based, ready for remapping, not a rewrite.
+2. Remap its `:root` custom properties to frilo tokens: durations →
+   `TOKENS.json` motion.duration, easings → motion.easing, colors → the brand
+   file.
+3. Keep the `t-*` class namespacing and the `prefers-reduced-motion` guard.
+   Both survive the remap untouched.
+4. Run the result through Emil's rules (`review-animations` if installed) and
+   `micro-interactions`: frequency check, sub-300ms, origin correctness,
+   interruption still apply. A pattern being proven doesn't exempt it from the
+   frequency rule; a number pop-in on a value that updates every second gets
+   deleted, not styled.
 
 ## Conflict rule
 
-Same as the animation skill: transitions.dev supplies the mechanism, frilo tokens supply the values, Emil's craft rules supply the veto.
+`transitions.dev` supplies the mechanism, frilo tokens supply the values,
+Emil's craft rules and `micro-interactions`'s seven invariants supply the veto.
