@@ -23,6 +23,26 @@ Division of labor:
 - Restrained profile is stricter than Emil's floor: max 8px translate, no bounce, staggers capped at 3 items.
 - Conflict rule: Emil's craft rules win on judgment, frilo tokens win on values. If a token value violates a craft rule, flag it as a token bug rather than hardcoding around it.
 
+## Curve selection (the Easing Blueprint)
+
+Same author as `emilkowalski/skills` — this is his `animations.dev` easing
+lesson, not a competing source. It sharpens "ease-out on enter" above into a
+per-context lookup. Frilo only ships three named curves (`standard`, `decel`,
+`accel`) plus a `spring`, so this is the mapping from his five contexts onto
+what's actually in `TOKENS.json`.
+
+| Context | Curve | Frilo token |
+| --- | --- | --- |
+| User-initiated enter: dropdown, modal, sheet opening | ease-out | `decel` (or `standard` when a softer feel is wanted) |
+| Element already on screen repositioning or morphing | ease-in-out | No token exists yet. Approximate with `standard` and flag it as a token gap — don't hand-type a curve to fill it |
+| Anything else | ease-in | Avoid. Reserve acceleration for exits, and even there prefer `accel` over a hand-picked ease-in |
+| Marquee, progress fill, or anything modelling constant real-world motion | linear | Raw `linear` keyword — the one legitimate case for not using a named curve. Duration still comes from `TOKENS.json` |
+| Hover color/opacity | CSS default `ease` | `standard` at `fast` (160ms) is the closest token match |
+
+One concrete number worth keeping as-is: button press feedback is `scale(0.97)`
+on `:active`. Its source duration (150ms) rounds to frilo's `fast` (160ms) —
+ship the token, not the raw 150.
+
 ## Non-delegable frilo rules
 
 - Durations/easings from tokens only; a hand-typed cubic-bezier is a finding.
